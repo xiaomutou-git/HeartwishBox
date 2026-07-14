@@ -67,9 +67,15 @@ const HistoryPage: React.FC<HistoryPageProps> = ({ onBack }) => {
   }, []);
 
   /**
-   * 组件挂载时加载历史记录
+   * 组件挂载时加载历史记录并滚动到页面顶部
+   * @description 页面切换后滚动位置可能保留，进入历史页时强制回到顶部，确保用户从最新记录开始浏览。
    */
   useEffect(() => {
+    try {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      console.error('滚动到顶部失败:', err);
+    }
     loadHistory();
   }, [loadHistory]);
 

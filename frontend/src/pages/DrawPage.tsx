@@ -4,7 +4,7 @@
  * @created 2026-07-14
  */
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { drawRandomTask, splitTaskContent } from '../utils/taskHelpers';
 import type { EmotionTask, TaskType } from '../types';
 
@@ -82,13 +82,12 @@ const DrawPage: React.FC<DrawPageProps> = ({ onSubmit }) => {
 
   /**
    * 选择任务类型
-   * @description 更新选中的任务类型并立即重新抽取任务。
+   * @description 更新选中的任务类型；盲盒内容保持隐藏，等待用户点击开启。
    * @param {TaskType | '全部'} type - 要选中的任务类型
    */
   const handleSelectType = useCallback((type: TaskType | '全部') => {
     setSelectedType(type);
-    openGiftBox(type);
-  }, [openGiftBox]);
+  }, []);
 
   /**
    * 处理鼠标移动，实现卡片倾斜跟随效果
@@ -134,19 +133,6 @@ const DrawPage: React.FC<DrawPageProps> = ({ onSubmit }) => {
   const handleSubmit = useCallback(() => {
     onSubmit(currentTask, response.trim() || '（未填写）');
   }, [currentTask, response, onSubmit]);
-
-  /**
-   * 组件挂载时自动打开一次盲盒
-   */
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      openGiftBox();
-    }, 300);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [openGiftBox]);
 
   const { title, description } = splitTaskContent(currentTask.task);
 

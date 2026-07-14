@@ -35,6 +35,10 @@ jobs:
         run: pnpm run build
         working-directory: frontend
 
+      - name: List build output
+        run: ls -la frontend/dist
+        working-directory: .
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
